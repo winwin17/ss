@@ -1,0 +1,9 @@
+wget https://downloads.apache.org/spark/spark-3.5.3/spark-3.5.3-bin-hadoop3.tgz
+export SPARK_HOME=/usr/local/spark
+export PATH=$PATH:$SPARK_HOME/bin:$SPARK_HOME/sbin
+spark-shell
+val fin=sc.textFile("")
+val counts=fin.flatMap(line=>line.split(" ")).map(word=>(word,1)).reduceByKey(_+_)
+counts.saveAsTextFile("")
+cat part-00000 part-00001
+mpiexec -n 2 modelpgm1.exe 
