@@ -1,0 +1,81 @@
+<html>
+<head>
+<script src="https://unpkg.com/dropbox/dist/Dropbox-sdk.min.js"></script>
+</head>
+<body>
+<input type="file" id="fileinput">
+<button id="up-button">Upload</button>
+<input type="text" id="down-file" placeholder="enter the filename to download">
+<button id="down-button">Download</button>
+<button id="list-files">List</button>
+<ul id="files-list"></ul>
+<script>
+document.addEventListener('DOMContentLoaded',()=>{
+const dbx=new Dropbox.Dropbox({youratoken:});
+document.getElementById('up-button').addEventListener('click',async ()=>{
+	const file=document.getElementById('fileinput').files[0];
+	if(file)
+	{
+		try{
+		const response=await dbx.filesUpload({path:'/modelab/'+file.name,contents:file});
+		alert('file uploaded successfully');
+		}catch(error)
+		{
+			alert(error.error?JSON.stringify(error.error):error.message);
+		}
+	}
+	else{
+		alert('select the file');3
+	}	
+});
+document.getElementById('down-button').addEventListener('click',async()=>{
+	const fn=document.getElementById('down-file').value;
+	if(!fn)
+	{
+		alert('enter the correct file');
+		return;
+	}
+	const fpath='/modelab/'+fn;
+	try{
+		const response=await dbx.filesDownload({path:fpath});
+		const blob=response.result.fileBlob;
+		const downloadURL=URL.createObjectURL(blob);
+		const a=document.createElement('a');
+		a.href=downloadURL;
+		a.download=fn;
+		a.click();
+		URL.revokeObjectURL(downloadURL);
+	}catch(error)
+	{
+		alert(error.error?JSON.stringify(error.error):error.message);
+	}
+});
+
+document.getElementById('list-files').addEventListener('click',async ()=>{
+try{
+const response=await dbx.filesListFolder({path:'/modelab/'});
+const fn=response.result.entries;
+const ul=document.getElementById('files-list');
+
+ul.innerHTML='';
+fn.forEach(file=>{
+const li=document.createElement('li');
+li.textContent=file.name;
+ul.appendChild(li);
+});
+
+
+
+}catch(error)
+{
+	alert(error.error?JSON.stringify(error.error):error.message);
+}
+
+});
+	
+	
+});
+
+</script>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Complaint Form</title>
+    <script src="https://cdn.auth0.com/js/auth0/9.16/auth0.min.js"></script>
+    <script src="App.js" defer></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Student Complaint Form</h1>
+        
+        <!-- Authentication Content -->
+        <div id="auth-content">
+            <p>Please log in to submit a complaint.</p>
+            <button id="login-btn" class="auth-button">Login with Google</button>
+        </div>
+        
+        <!-- Complaint Form -->
+        <div id="form-content" style="display:none;">
+            <form action="/add-data" method="post">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required><br><br>
+                
+                <label for="room">Room:</label>
+                <input type="text" id="room" name="room" required><br><br>
+                
+                <label for="phn">Phone:</label>
+                <input type="text" id="phn" name="phn" required><br><br>
+                
+                <label for="complaint">Complaint:</label>
+                <input type="text" id="complaint" name="complaint" required><br><br>
+                
+                <input type="submit" value="Submit Complaint">
+            </form>
+            <button id="logout-btn" class="auth-button">Logout</button>
+        </div>
+    </div>
+</body>
+</html>
